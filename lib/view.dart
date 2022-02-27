@@ -2,22 +2,6 @@ import 'package:card_space/string_card.dart';
 import 'package:flutter/material.dart';
 
 class View extends StatelessWidget {
-  final MaterialColor materialWhite = const MaterialColor(
-    0xFFFFFFFF,
-    const <int, Color>{
-      50: const Color(0xFFFFFFFF),
-      100: const Color(0xFFFFFFFF),
-      200: const Color(0xFFFFFFFF),
-      300: const Color(0xFFFFFFFF),
-      400: const Color(0xFFFFFFFF),
-      500: const Color(0xFFFFFFFF),
-      600: const Color(0xFFFFFFFF),
-      700: const Color(0xFFFFFFFF),
-      800: const Color(0xFFFFFFFF),
-      900: const Color(0xFFFFFFFF),
-    },
-  );
-
   const View({Key? key}) : super(key: key);
 
   static const String appName = "Card Space";
@@ -26,10 +10,8 @@ class View extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: appName,
-      theme: ThemeData(
-        primaryColor: Colors.blue,
-      ),
-      //darkTheme: ThemeData.dark(),
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
       home: const MyHomePage(title: appName),
     );
   }
@@ -51,8 +33,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   var _num = 0;
 
-  //カード作成関数
-  void _makeCard() {
+  //文章カード作成関数
+  void _createStringCard() {
     setState(() {
       String_Card card = String_Card(text: "card ${_num++}", pos: Offset(0, 0));
       cardLists.add(card);
@@ -72,9 +54,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return _cardListWidgets;
   }
 
-  //Widget card1 = String_Card(text: "card1", pos: Offset(0, 0));
-  //Widget card2 = String_Card(text: "card2", pos: Offset(0, 0));
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,17 +69,44 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         elevation: 3, //bodyとの境界線
         backgroundColor: Colors.white, //背景色
+        iconTheme: IconThemeData(size: 50),
         actions: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.input),
-                tooltip: 'make String Card', //カバー時に表示される
-                onPressed: _makeCard, //文字列カードを作成する
-              ),
-            ],
-          )
+          IconButton(
+            //文字カードのアイコン
+            icon: const Icon(
+              Icons.edit_note,
+              color: Colors.black,
+            ),
+            tooltip: 'Create String Card', //カバー時に表示される
+            onPressed: _createStringCard, //文字列カードを作成する
+          ),
+          IconButton(
+            //画像カードのアイコン
+            icon: const Icon(
+              Icons.image,
+              color: Colors.black,
+            ),
+            tooltip: "Create Image Card",
+            onPressed: () {},
+          ),
+          IconButton(
+            //URLカードのアイコン
+            icon: const Icon(
+              Icons.link,
+              color: Colors.black,
+            ),
+            tooltip: "Create URL Card",
+            onPressed: () {},
+          ),
+          IconButton(
+            //全カード削除のアイコン
+            icon: const Icon(
+              Icons.clear,
+              color: Colors.black,
+            ),
+            tooltip: "Clear All Card",
+            onPressed: () {},
+          ),
         ],
       ),
       //backgroundColor: Colors.white, //背景色
