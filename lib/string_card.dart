@@ -6,21 +6,19 @@ class String_Card extends StatefulWidget {
   //変数定義すると、UIのところから"widget.変数名""で呼ぶことができる
 
   final String text;
-
-  String_Card({required this.text});
+  Offset pos;
+  String_Card({required this.text, required this.pos});
   //createState()で"State"(Stateを継承したクラス)を返す
   @override
   _String_Card createState() => _String_Card();
 }
 
 class _String_Card extends State<String_Card> {
-  Offset? _pos = Offset(0, 0);
-
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      left: this._pos?.dx,
-      top: this._pos?.dy,
+      left: widget.pos.dx,
+      top: widget.pos.dy,
       child: Draggable(
         feedback: Material(
           //移動中のカード
@@ -59,7 +57,7 @@ class _String_Card extends State<String_Card> {
         childWhenDragging: Container(),
         onDraggableCanceled: (view, offset) {
           setState(() {
-            this._pos = Offset(offset.dx, offset.dy - 56);
+            widget.pos = Offset(offset.dx, offset.dy - 56);
           });
         },
       ),
