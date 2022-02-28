@@ -31,17 +31,50 @@ class _MyHomePageState extends State<MyHomePage> {
   var cardLists = <Widget>[];
   var cardContens = <Widget>[];
 
-  var _num = 0;
-
   //文章カード作成関数
-  void _createStringCard() {
+  void _createStringCard() async {
+    //テキストコントローラ
+    final myController = TextEditingController();
+
+    String value = await showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          title: Text("Create Card"),
+          content: TextField(
+            controller: myController,
+            decoration: InputDecoration(hintText: "ここに入力"),
+          ),
+          actions: <Widget>[
+            // ボタン領域
+            FlatButton(
+              child: Text("Cancel"),
+              onPressed: () => Navigator.pop(context),
+            ),
+            FlatButton(
+              child: Text("OK"),
+              onPressed: () => Navigator.pop(context, myController.text),
+            ),
+          ],
+        );
+      },
+    );
+
     setState(() {
-      String_Card card = String_Card(text: "card ${_num++}", pos: Offset(0, 0));
-      cardLists.add(card);
-      print(cardLists);
-      cardContens = _getCards();
+      String_Card card =
+          String_Card(text: value, pos: Offset(0, 0)); //creat new card
+      cardLists.add(card); //add new card to cardlists
+      print(cardLists); //debug
+      cardContens = _getCards(); //reload cardlists
     });
   }
+
+  //画像カード作成関数
+  void _createImageCard() {}
+  //URLカード作成関数
+  void _createURLCard() {}
+  //全カード削除関数
+  void _clearAllCard() {}
 
   //カード表示関数
   List<Widget> _getCards() {
@@ -59,12 +92,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.title,
+          widget.title, //表示する文字
           style: TextStyle(
-            color: Colors.black,
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.bold,
-            fontSize: 30,
+            color: Colors.black, //appBarの文字の色
+            fontFamily: 'Roboto', //フォント
+            fontWeight: FontWeight.bold, //太字
+            fontSize: 30, //フォントサイズ
           ),
         ),
         elevation: 3, //bodyとの境界線
@@ -87,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.black,
             ),
             tooltip: "Create Image Card",
-            onPressed: () {},
+            onPressed: _createImageCard,
           ),
           IconButton(
             //URLカードのアイコン
@@ -96,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.black,
             ),
             tooltip: "Create URL Card",
-            onPressed: () {},
+            onPressed: _createURLCard,
           ),
           IconButton(
             //全カード削除のアイコン
@@ -105,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.black,
             ),
             tooltip: "Clear All Card",
-            onPressed: () {},
+            onPressed: _clearAllCard,
           ),
         ],
       ),
