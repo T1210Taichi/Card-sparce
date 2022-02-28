@@ -14,6 +14,22 @@ class String_Card extends StatefulWidget {
 }
 
 class _String_Card extends State<String_Card> {
+//カード削除のポップアップメニュー
+  PopupMenuButton createPoppuMenuButton() {
+    return PopupMenuButton(
+      icon: Icon(Icons.delete),
+      offset: widget.pos, //メニューの表示位置
+      itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+        PopupMenuItem(
+          child: ListTile(
+            leading: Icon(Icons.delete),
+            title: Text("delete"),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -85,8 +101,40 @@ class _String_Card extends State<String_Card> {
               widget.text = value;
             });
           },
-          onDoubleTap: () {
+          onDoubleTap: () async {
             //カード削除処理
+            //テキストコントローラ
+            TextEditingController myController =
+                TextEditingController(text: widget.text);
+            //タップ処理
+            String value = await showDialog(
+              context: context,
+              builder: (_) {
+                return AlertDialog(
+                  title: Text("Delete Text Card"),
+                  content: Text("Can I delete this Text Card?"),
+                  actions: <Widget>[
+                    // ボタン領域
+                    FlatButton(
+                      child: Text("Cancel"),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                    FlatButton(
+                      child: Text("OK"),
+                      onPressed: () =>
+                          Navigator.pop(context, myController.text),
+                    ),
+                  ],
+                );
+              },
+            );
+
+            //print(value);//debug
+
+            setState(() {
+              //カードの文字を更新
+              widget.text = value;
+            });
           },
           child: Container(
             //移動前のカード
