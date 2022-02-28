@@ -34,16 +34,24 @@ class _MyHomePageState extends State<MyHomePage> {
   //文章カード作成関数
   void _createStringCard() async {
     //テキストコントローラ
-    final myController = TextEditingController();
+    TextEditingController myController = TextEditingController();
 
     String value = await showDialog(
       context: context,
       builder: (_) {
         return AlertDialog(
           title: Text("Create Card"),
-          content: TextField(
+          content: TextFormField(
+            autofocus: true, //画面を開くとキーボードが開かれる
+            enabled: true, //入力可能か
+            maxLength: 12, //最大数
             controller: myController,
-            decoration: InputDecoration(hintText: "ここに入力"),
+            decoration: const InputDecoration(
+              border: UnderlineInputBorder(),
+              labelText: "Enter Text",
+            ),
+            onEditingComplete: () =>
+                Navigator.pop(context, myController.text), //Enterを押した処理
           ),
           actions: <Widget>[
             // ボタン領域
@@ -53,7 +61,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             FlatButton(
               child: Text("OK"),
-              onPressed: () => Navigator.pop(context, myController.text),
+              onPressed: () =>
+                  Navigator.pop(context, myController.text), //入力文を送る
             ),
           ],
         );
@@ -64,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
       String_Card card =
           String_Card(text: value, pos: Offset(0, 0)); //creat new card
       cardLists.add(card); //add new card to cardlists
-      print(cardLists); //debug
+      //print(cardLists); //debug
       cardContens = _getCards(); //reload cardlists
     });
   }
