@@ -1,5 +1,6 @@
 import 'package:card_space/string_card.dart';
 import 'package:flutter/material.dart';
+import "package:provider/provider.dart";
 
 class View extends StatelessWidget {
   const View({Key? key}) : super(key: key);
@@ -8,11 +9,18 @@ class View extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: appName,
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      home: const MyHomePage(title: appName),
+    return MultiProvider(
+      child: MaterialApp(
+        title: appName,
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        home: const MyHomePage(title: appName),
+      ),
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => String_CardModel(),
+        )
+      ],
     );
   }
 }
@@ -23,18 +31,19 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage> createState() => MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  //カードリスト
+class MyHomePageState extends State<MyHomePage> {
   var cardLists = <Widget>[];
-  var cardContens = <Widget>[];
 
   //文章カード作成関数
   void _createStringCard() async {
     //テキストコントローラ
     TextEditingController myController = TextEditingController();
+    //カードリスト
+    //var cardLists = Provider.of<String_CardModel>(context);
+    print("now");
 
     String value = await showDialog(
       context: context,
@@ -70,11 +79,10 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     setState(() {
-      String_Card card =
+      Widget card =
           String_Card(text: value, pos: Offset(0, 0)); //creat new card
-      cardLists.add(card); //add new card to cardlists
+      //rcardLists.add(card); //add new card to cardlists
       //print(cardLists); //debug
-      cardContens = _getCards(); //reload cardlists
     });
   }
 
@@ -83,21 +91,21 @@ class _MyHomePageState extends State<MyHomePage> {
   //URLカード作成関数
   void _createURLCard() {}
   //全カード削除関数
-  void _clearAllCard() {}
-
-  //カード表示関数
-  List<Widget> _getCards() {
-    final List<Widget> _cardListWidgets = <Widget>[];
-    setState(() {
-      cardLists.forEach((element) {
-        _cardListWidgets.add(element);
-      });
-    });
-    return _cardListWidgets;
+  void _clearAllCard() {
+    //カードリスト
+    var cardLists = Provider.of<String_CardModel>(context);
+    //setState(() {
+    cardLists.clear();
+    print("clear"); //debug
+    //cardLists = getCards();
+    //});
   }
 
   @override
   Widget build(BuildContext context) {
+    //カードリスト
+    var string_cardModel = Provider.of<String_CardModel>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -120,7 +128,10 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.black,
             ),
             tooltip: 'Create String Card', //カバー時に表示される
-            onPressed: _createStringCard, //文字列カードを作成する
+            //onPressed: _createStringCard, //文字列カードを作成する
+            onPressed: () {
+              string_cardModel.createStringCard(context);
+            },
           ),
           IconButton(
             //画像カードのアイコン
@@ -152,9 +163,17 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       //backgroundColor: Colors.white, //背景色
+      body: Consumer<String_CardModel>(
+        builder: (context, value, child) => Stack(
+          //children: getCards(),
+          children: string_cardModel.getCards(),
+        ),
+      ),
+      /*
       body: Stack(
           //Widgetを自由に配置
-          children: _getCards()),
+          children: getCards()),
+      */
     );
   }
 }
