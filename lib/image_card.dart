@@ -2,11 +2,16 @@
 import 'dart:io';
 import 'package:card_space/view.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker_web/image_picker_web.dart';
+//管理
 import 'package:provider/provider.dart';
+//画像を取得
 import 'package:image_picker/image_picker.dart';
-import 'package:image_picker_for_web/image_picker_for_web.dart';
+import 'package:image_picker_web/image_picker_web.dart';
+//import 'package:image_picker_for_web/image_picker_for_web.dart';
 import 'card.dart';
+//画像の拡大縮小
+import 'package:photo_view/photo_view.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class Image_Card extends StatefulWidget {
   //変数定義すると、UIのところから"widget.変数名""で呼ぶことができる
@@ -21,9 +26,17 @@ class Image_Card extends StatefulWidget {
 class _Image_Card extends State<Image_Card> {
   final picker = ImagePicker();
 
+  //コンストラクタ
+  _Image_Card() {
+    //画像を取得
+    getImageFromGallery();
+  }
+
   //ギャラリーから画像を取得
   Future getImageFromGallery() async {
+    //final fromPicker = await ImagePickerWeb.getImageAsWidget();
     final fromPicker = await ImagePickerWeb.getImageAsWidget();
+
     if (fromPicker != null) {
       setState(() {
         widget.image = fromPicker;
@@ -46,7 +59,7 @@ class _Image_Card extends State<Image_Card> {
             height: 100,
             decoration: BoxDecoration(
               color: Colors.white, //背景色
-              border: Border.all(color: Colors.blue), //ふち
+              //border: Border.all(color: Colors.blue), //ふち
               borderRadius: BorderRadius.circular(10), //角を丸める
             ),
             child: widget.image,
@@ -87,11 +100,16 @@ class _Image_Card extends State<Image_Card> {
             width: 200,
             height: 100,
             decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: Colors.blue),
-              borderRadius: BorderRadius.circular(10),
+              //color: Colors.white, //背景
+              //border: Border.all(color: Colors.blue), //ふち
+              borderRadius: BorderRadius.circular(10), //角を丸める
             ),
-            child: Center(child: widget.image),
+            child: widget.image,
+            /* PhotoView(
+              imageProvider: widget.image,
+              minScale: PhotoViewComputedScale.contained * 0.5,
+            ),
+            */
           ),
         ),
         childWhenDragging: Container(),
