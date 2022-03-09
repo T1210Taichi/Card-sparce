@@ -1,11 +1,11 @@
 {
-    "name": "card_space",
-    "short_name": "card_space",
+    "name": "Card Space",
+    "short_name": "Card Space",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "メモやアイデア出しなど、カード型ツール",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
