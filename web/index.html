@@ -33,6 +33,7 @@
 
   <title>Card Space</title>
   <link rel="manifest" href="manifest.json">
+<<<<<<< HEAD
 
   <script>
     // Import the functions you need from the SDKs you need
@@ -58,6 +59,29 @@
   const analytics = getAnalytics(app);
 </script>
 
+=======
+  // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBx1J2G5JVSjV-XtKR0jBptF2fN-AHTwa0",
+  authDomain: "card-space-aad82.firebaseapp.com",
+  projectId: "card-space-aad82",
+  storageBucket: "card-space-aad82.appspot.com",
+  messagingSenderId: "898666015367",
+  appId: "1:898666015367:web:17362c4dd037ed8972e622",
+  measurementId: "G-9V23VNMPR9"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+>>>>>>> e2f4766467c84f058bc2b45973d74af1bb4327c8
 </head>
 <body>
   <!-- This script installs service_worker.js to provide PWA functionality to

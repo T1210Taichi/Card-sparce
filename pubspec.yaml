@@ -42,9 +42,12 @@ dependencies:
   image_picker_web: ^2.1.0
   photo_view: ^0.13.0
   flutter_image_compress: ^1.1.0
+<<<<<<< HEAD
   firebase_dynamic_links: ^4.0.8
   metadata_fetch: ^0.4.1
   http: ^0.13.4
+=======
+>>>>>>> e2f4766467c84f058bc2b45973d74af1bb4327c8
 
 dev_dependencies:
   flutter_test:
